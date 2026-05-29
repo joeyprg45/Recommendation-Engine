@@ -1,0 +1,173 @@
+from __future__ import annotations
+
+from .models import CommitRecord, IssueRecord, Member, ProjectRepository
+
+
+def build_demo_repository() -> ProjectRepository:
+    members = (
+        Member("m1", "中村 大樹", "joeyprg45", "実装リード", 900000),
+        Member("m2", "前田 彩", "maeda-aya-ai", "アーキテクト", 820000),
+        Member("m3", "小林 拓海", "kobayashi-takumi", "MLエンジニア", 760000),
+        Member("m4", "鈴木 莉子", "suzuki-riko-ml", "データサイエンティスト", 720000),
+        Member("m5", "山田 花奈", "yamahasan", "インフラ担当", 680000),
+        Member("m6", "田中 誠", "tanaka-makoto-pm", "PM", 650000),
+    )
+
+    issues = (
+        IssueRecord(
+            issue_id="T002",
+            title="LightGBM LambdaRank baseline model",
+            body="協調フィルタリングの学習・評価パイプラインを整備する。NDCG@10を重視する。",
+            labels=("modeling", "ranking", "ml"),
+            assignee="m3",
+            related_task="T002",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T003",
+            title="CosmosDB feature store schema",
+            body="user_id と item_id をキーに特徴量を格納し、日次バッチで更新する。",
+            labels=("infra", "cosmosdb", "feature-store"),
+            assignee="m1",
+            related_task="T003",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T004",
+            title="FastAPI recommendation endpoint",
+            body="POST /recommend を提供し、スコアリング層をプラグイン化する。",
+            labels=("api", "fastapi", "architecture"),
+            assignee="m5",
+            related_task="T004",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T005",
+            title="preprocessing pipeline cleanup",
+            body="pd.isna() を使い、欠損値と外れ値を整える。",
+            labels=("preprocessing", "data-quality"),
+            assignee="m4",
+            related_task="T005",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T011",
+            title="Azure OpenAI embedding cache",
+            body="Redis に item embedding をキャッシュし、バッチ生成を安定化する。",
+            labels=("embeddings", "redis", "azure-openai"),
+            assignee="m2",
+            related_task="T011",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T012",
+            title="Hybrid reranker integration",
+            body="LightGBM と embedding cosine similarity を組み合わせる。",
+            labels=("ranking", "hybrid", "ml"),
+            assignee="m3",
+            related_task="T012",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T013",
+            title="API refactor for hybrid scorer",
+            body="既存 API を HybridReranker に対応させ、ロードテストで安定性を確認する。",
+            labels=("api", "performance", "refactor"),
+            assignee="m5",
+            related_task="T013",
+            status="done",
+        ),
+        IssueRecord(
+            issue_id="T014",
+            title="A/B testing framework",
+            body="CTR, conversion, NDCG を比較し、統計的有意性を判定する。",
+            labels=("experiment", "evaluation", "stats"),
+            assignee="m4",
+            related_task="T014",
+            status="done",
+        ),
+    )
+
+    commits = (
+        CommitRecord(
+            sha="a001",
+            message="feat: implement LightGBM LambdaRank baseline model",
+            author_name="中村 大樹",
+            author_handle="joeyprg45",
+            task_id="T002",
+            changed_files=("lgbm_ranker.py", "train.py", "evaluate.py"),
+            evidence="NDCG@10=0.61, cold-start NDCG=0.41",
+        ),
+        CommitRecord(
+            sha="a002",
+            message="feat: add feature store schema with CosmosDB",
+            author_name="中村 大樹",
+            author_handle="joeyprg45",
+            task_id="T003",
+            changed_files=("feature_store.py", "batch_update.py"),
+            evidence="CosmosDB retry and daily batch updates",
+        ),
+        CommitRecord(
+            sha="a003",
+            message="feat: add recommendation API endpoint with plugin design",
+            author_name="山田 優",
+            author_handle="yamada-yu",
+            task_id="T004",
+            changed_files=("recommend_api.py", "Dockerfile"),
+            evidence="P99 latency 120ms",
+        ),
+        CommitRecord(
+            sha="a004",
+            message="fix: clean null values and outliers in preprocessing pipeline",
+            author_name="鈴木 莉子",
+            author_handle="suzuki-riko-ml",
+            task_id="T005",
+            changed_files=("preprocessing.py",),
+            evidence="pd.isna() handling and clipping",
+        ),
+        CommitRecord(
+            sha="a005",
+            message="feat: implement EmbeddingModel with Azure OpenAI and Redis cache",
+            author_name="前田 彩",
+            author_handle="maeda-aya-ai",
+            task_id="T011",
+            changed_files=("embedding_model.py", "cache.py"),
+            evidence="85% cache hit rate",
+        ),
+        CommitRecord(
+            sha="a006",
+            message="feat: implement HybridReranker with adaptive alpha weighting",
+            author_name="中村 大樹",
+            author_handle="joeyprg45",
+            task_id="T012",
+            changed_files=("hybrid_reranker.py", "ranking_features.py"),
+            evidence="NDCG@10=0.79, cold-start NDCG=0.72",
+        ),
+        CommitRecord(
+            sha="a007",
+            message="refactor: update recommendation API to support hybrid scorer plugin",
+            author_name="山田 優",
+            author_handle="yamada-yu",
+            task_id="T013",
+            changed_files=("recommend_api.py", "scorers.py"),
+            evidence="P99 latency 145ms",
+        ),
+        CommitRecord(
+            sha="a008",
+            message="feat: A/B testing framework with statistical significance",
+            author_name="鈴木 莉子",
+            author_handle="suzuki-riko-ml",
+            task_id="T014",
+            changed_files=("ab_testing.py", "statistics.py"),
+            evidence="t-test and Mann-Whitney U test",
+        ),
+    )
+
+    return ProjectRepository(
+        repository_name="abc-technologies/ec-recommend-engine",
+        description="AI-powered hybrid recommendation engine using LightGBM + Azure OpenAI Embeddings",
+        overview="大手ECサイト向けに協調フィルタリング＋機械学習を用いたレコメンドエンジンの開発。",
+        members=members,
+        issues=issues,
+        commits=commits,
+    )

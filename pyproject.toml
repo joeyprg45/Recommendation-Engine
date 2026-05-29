@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recommendation-engine-demo"
+version = "0.1.0"
+description = "GitHub MCP-inspired skill analysis demo for the recommendation-engine hackathon repo"
+readme = "README.md"
+requires-python = ">=3.12"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
