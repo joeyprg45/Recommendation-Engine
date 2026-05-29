@@ -42,6 +42,7 @@ class ProjectRepository:
     members: tuple[Member, ...]
     issues: tuple[IssueRecord, ...]
     commits: tuple[CommitRecord, ...]
+    task_owners: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)

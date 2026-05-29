@@ -170,4 +170,14 @@ def build_demo_repository() -> ProjectRepository:
         members=members,
         issues=issues,
         commits=commits,
+        task_owners={
+            "T002": "m1",
+            "T003": "m1",
+            "T004": "m1",
+            "T005": "m1",
+            "T011": "m1",
+            "T012": "m1",
+            "T013": "m1",
+            "T014": "m1",
+        },
     )
