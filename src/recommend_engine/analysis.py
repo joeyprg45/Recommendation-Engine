@@ -4,6 +4,7 @@ from collections import defaultdict
 from dataclasses import asdict
 import re
 
+from .cache import ProfileCache
 from .demo_data import build_demo_repository
 from .models import CommitRecord, IssueRecord, MemberProfile, ProjectRepository, SkillSignal
 from .preprocessing import normalize_repository
@@ -170,6 +171,22 @@ def infer_member_profile(repository: ProjectRepository | None, member_id: str) -
         if profile.member.member_id == member_id or profile.member.github_handle == member_id:
             return profile
     raise KeyError(f"member not found: {member_id}")
+
+
+def infer_member_profile_cached(
+    repository: ProjectRepository | None,
+    member_id: str,
+    cache: ProfileCache | None = None,
+) -> MemberProfile:
+    repository = normalize_repository(repository or build_demo_repository())
+    cache = cache or ProfileCache()
+    cached_profile = cache.load(repository, member_id)
+    if cached_profile is not None:
+        return cached_profile
+
+    profile = infer_member_profile(repository, member_id)
+    cache.save(repository, profile)
+    return profile
 
 
 def rank_members_by_skill(repository: ProjectRepository | None, skill: str) -> list[MemberProfile]:
