@@ -1,0 +1,26 @@
+{
+  "issue_id": "T004",
+  "title": "Design and implement recommendation API endpoint",
+  "labels": ["backend", "fastapi", "plugin-architecture"],
+  "assignees": ["joeyprg45"],
+  "participants": ["joeyprg45", "maeda-aya-ai", "tanaka-makoto-pm"],
+  "timeline": [
+    {
+      "event": "opened",
+      "actor": "tanaka-makoto-pm",
+      "at": "2026-05-15T09:00:00Z"
+    },
+    {
+      "event": "commented",
+      "actor": "maeda-aya-ai",
+      "at": "2026-05-15T11:40:00Z",
+      "text": "Keep scorer interface abstract for model swaps in phase 2."
+    },
+    {
+      "event": "closed",
+      "actor": "joeyprg45",
+      "at": "2026-05-16T20:20:00Z"
+    }
+  ],
+  "acceptance_notes": "POST /recommend is stable and P99 latency under 150ms."
+}

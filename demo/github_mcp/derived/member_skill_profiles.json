@@ -4,12 +4,17 @@
     "top_skills": [
       "ml_ranking",
       "data_platform",
+      "software_architecture",
+      "backend_api",
       "ml_evaluation"
     ],
     "skill_scores": {
       "ml_ranking": 5,
       "ml_evaluation": 1,
-      "data_platform": 3
+      "data_platform": 3,
+      "software_architecture": 3,
+      "backend_api": 3,
+      "experimentation": 1
     }
   }
 ]
