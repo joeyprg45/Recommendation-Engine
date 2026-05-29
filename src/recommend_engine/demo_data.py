@@ -17,7 +17,7 @@ def build_demo_repository() -> ProjectRepository:
         IssueRecord(
             issue_id="T002",
             title="LightGBM LambdaRank baseline model",
-            body="協調フィルタリングの学習・評価パイプラインを整備する。NDCG@10を重視する。",
+            body="協調フィルタリングの学習・評価パイプラインを整備する。NDCG@10 を重視する。",
             labels=("modeling", "ranking", "ml"),
             assignee="m3",
             related_task="T002",

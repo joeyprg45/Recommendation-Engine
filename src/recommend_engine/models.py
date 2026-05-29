@@ -44,7 +44,7 @@ class ProjectRepository:
     commits: tuple[CommitRecord, ...]
 
 
-@dataclass
+@dataclass(frozen=True)
 class SkillSignal:
     skill: str
     source: str

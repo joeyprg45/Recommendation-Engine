@@ -3,11 +3,14 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "recommendation-engine-demo"
+name = "recommendation-engine"
 version = "0.1.0"
-description = "GitHub MCP-inspired skill analysis demo for the recommendation-engine hackathon repo"
+description = "GitHub issue and commit history skill analysis for chat support"
 readme = "README.md"
 requires-python = ">=3.12"
+
+[project.scripts]
+recommend-engine = "recommend_engine.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
