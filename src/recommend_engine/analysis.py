@@ -6,6 +6,7 @@ import re
 
 from .cache import ProfileCache
 from .demo_data import build_demo_repository
+from .hybrid_reranker import HybridReranker
 from .models import CommitRecord, IssueRecord, MemberProfile, ProjectRepository, SkillSignal
 from .preprocessing import normalize_repository
 
@@ -192,7 +193,8 @@ def infer_member_profile_cached(
 def rank_members_by_skill(repository: ProjectRepository | None, skill: str) -> list[MemberProfile]:
     canonical = _canonical_skill(skill)
     profiles = infer_member_profiles(repository)
-    return sorted(profiles, key=lambda profile: profile.scores.get(canonical, 0.0), reverse=True)
+    reranker = HybridReranker()
+    return reranker.rank(profiles, canonical)
 
 
 def summarize_repository(repository: ProjectRepository | None = None) -> dict[str, object]:
