@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from .chat_context import build_member_chat_context, build_repository_chat_context
 from .analysis import infer_member_profile, infer_member_profiles, rank_members_by_skill, summarize_repository
 from .demo_data import build_demo_repository
 from .models import CommitRecord, IssueRecord, Member, MemberProfile, ProjectRepository, SkillSignal
 
 __all__ = [
     "build_demo_repository",
+    "build_member_chat_context",
+    "build_repository_chat_context",
     "infer_member_profile",
     "infer_member_profiles",
     "rank_members_by_skill",

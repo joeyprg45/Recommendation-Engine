@@ -85,6 +85,10 @@ def _skill_from_text(text: str) -> list[str]:
     return skills
 
 
+def extract_skills_from_text(text: str) -> list[str]:
+    return list(dict.fromkeys(_skill_from_text(text)))
+
+
 def _append_signal(signals: list[SkillSignal], skill: str, source: str, weight: float, detail: str) -> None:
     signals.append(SkillSignal(skill=skill, source=source, weight=weight, detail=detail))
 
