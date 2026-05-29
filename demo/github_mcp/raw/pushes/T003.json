@@ -1,0 +1,26 @@
+{
+  "task_id": "T003",
+  "repo": "abc-technologies/ec-recommend-engine",
+  "pusher": "joeyprg45",
+  "commits": [
+    {
+      "sha": "demo-t003-001",
+      "message": "feat: add feature store schema with CosmosDB",
+      "files": [
+        "src/feature_store/schema.py",
+        "src/feature_store/cosmos_client.py",
+        "src/jobs/daily_feature_update.py"
+      ],
+      "stats": {
+        "additions": 191,
+        "deletions": 9
+      },
+      "highlights": [
+        "FeatureStore class for user/item features",
+        "Daily batch update support",
+        "Connection retry logic"
+      ],
+      "timestamp": "2026-05-14T17:55:00Z"
+    }
+  ]
+}
