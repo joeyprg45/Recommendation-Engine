@@ -23,6 +23,8 @@ def build_parser() -> argparse.ArgumentParser:
     rank_parser = subparsers.add_parser("rank", help="rank members by skill")
     rank_parser.add_argument("--skill", required=True)
 
+    subparsers.add_parser("ab-test", help="run A/B test summary")
+
     return parser
 
 
@@ -45,6 +47,10 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.command == "rank":
         print(_ranking_to_text(service.rank_members(args.skill), args.skill))
+        return
+
+    if args.command == "ab-test":
+        print(_ab_test_to_text(service.evaluate_hybrid_release()))
         return
 
     raise SystemExit(f"unknown command: {args.command}")
@@ -76,3 +82,23 @@ def _to_pretty_json(payload) -> str:
     if is_dataclass(payload):
         payload = asdict(payload)
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def _ab_test_to_text(report) -> str:
+    lines = [
+        f"baseline={report.baseline}",
+        f"candidate={report.candidate}",
+        f"minimum_sample_size={report.min_sample_size}",
+        f"early_stop_recommended={report.early_stop_recommended}",
+        "",
+        "metric comparisons:",
+    ]
+    for comparison in report.comparisons:
+        lines.append(
+            "- "
+            + f"{comparison.metric}: baseline={comparison.baseline_mean:.4f}, "
+            + f"candidate={comparison.candidate_mean:.4f}, delta={comparison.delta:+.4f}, "
+            + f"t_p={comparison.t_test.p_value:.4f}, mw_p={comparison.mw_test.p_value:.4f}, "
+            + f"significant={comparison.significant}"
+        )
+    return "\n".join(lines)
