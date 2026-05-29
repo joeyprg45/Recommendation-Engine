@@ -3,10 +3,10 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import asdict
 import re
-from typing import Iterable
 
 from .demo_data import build_demo_repository
 from .models import CommitRecord, IssueRecord, MemberProfile, ProjectRepository, SkillSignal
+from .preprocessing import normalize_repository
 
 
 SKILL_ALIASES: dict[str, str] = {
@@ -129,7 +129,7 @@ def _signals_from_commit(commit: CommitRecord) -> list[SkillSignal]:
 
 
 def infer_member_profiles(repository: ProjectRepository | None = None) -> list[MemberProfile]:
-    repository = repository or build_demo_repository()
+    repository = normalize_repository(repository or build_demo_repository())
     issues_by_task = {issue.related_task or issue.issue_id: issue for issue in repository.issues}
     member_signals: dict[str, list[SkillSignal]] = defaultdict(list)
 
@@ -179,7 +179,7 @@ def rank_members_by_skill(repository: ProjectRepository | None, skill: str) -> l
 
 
 def summarize_repository(repository: ProjectRepository | None = None) -> dict[str, object]:
-    repository = repository or build_demo_repository()
+    repository = normalize_repository(repository or build_demo_repository())
     profiles = infer_member_profiles(repository)
     total_signals = sum(len(profile.signals) for profile in profiles)
     top_profiles = sorted(profiles, key=lambda profile: sum(profile.scores.values()), reverse=True)
